@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import authRouter from "./routes/authRoute.js";
 dotenv.config();
 
 const app = express();
@@ -14,6 +15,9 @@ mongoose
   .catch((error) => {
     console.log("DB ERROR", error);
   });
+
+// ruters
+app.use("/api/auth", authRouter);
 
 // midelware
 // middleware
