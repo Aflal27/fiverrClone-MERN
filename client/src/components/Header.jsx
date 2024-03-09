@@ -13,6 +13,7 @@ export default function Header() {
   const { theme } = useSelector((state) => state.themeState);
   const dispatch = useDispatch();
   const [searchToggle, setSearchToggle] = useState(false);
+  const { currentUser } = useSelector((state) => state.userState);
 
   return (
     <Navbar>
@@ -70,32 +71,36 @@ export default function Header() {
           pill>
           {theme === "light" ? <FaMoon /> : <FaSun />}
         </Button>
-        <Dropdown
-          arrowIcon={false}
-          inline
-          label={
-            <Avatar
-              alt="user avatar"
-              img="https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-Image.png"
-              rounded
-            />
-          }>
-          <Dropdown.Header>
-            <span className=" block text-sm">@Name</span>
-            <span className=" block text-sm">@Email</span>
-          </Dropdown.Header>
-          <Link to="/dashbord?tab=profile">
-            <Dropdown.Item>Profile</Dropdown.Item>
+        {currentUser && currentUser ? (
+          <Dropdown
+            arrowIcon={false}
+            inline
+            label={
+              <Avatar alt="user avatar" img={currentUser.image} rounded />
+            }>
+            <Dropdown.Header>
+              <span className=" block text-sm">@{currentUser.username}</span>
+              <span className=" block text-sm">@{currentUser.email}</span>
+            </Dropdown.Header>
+            <Link to="/dashbord?tab=profile">
+              <Dropdown.Item>Profile</Dropdown.Item>
+            </Link>
+            <Link to="/dashbord?tab=dashboard">
+              <Dropdown.Item>Dashboard</Dropdown.Item>
+            </Link>
+            <Link>
+              <Dropdown.Item>Message</Dropdown.Item>
+            </Link>
+            <Dropdown.Divider />
+            <Dropdown.Item>Sign Out</Dropdown.Item>
+          </Dropdown>
+        ) : (
+          <Link to="/sign-in">
+            <Button gradientDuoTone="purpleToBlue" outline>
+              Sign In
+            </Button>
           </Link>
-          <Link to="/dashbord?tab=dashboard">
-            <Dropdown.Item>Dashboard</Dropdown.Item>
-          </Link>
-          <Link>
-            <Dropdown.Item>Message</Dropdown.Item>
-          </Link>
-          <Dropdown.Divider />
-          <Dropdown.Item>Sign Out</Dropdown.Item>
-        </Dropdown>
+        )}
       </div>
     </Navbar>
   );
