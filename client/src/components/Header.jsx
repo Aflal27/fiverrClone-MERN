@@ -81,11 +81,12 @@ export default function Header() {
             <Dropdown.Header>
               <span className=" block text-sm">@{currentUser.username}</span>
               <span className=" block text-sm">@{currentUser.email}</span>
+              <span className=" block text-sm">@{currentUser.level}</span>
             </Dropdown.Header>
-            <Link to="/dashbord?tab=profile">
+            <Link to="/dashboard?tab=profile">
               <Dropdown.Item>Profile</Dropdown.Item>
             </Link>
-            <Link to="/dashbord?tab=dashboard">
+            <Link to="/dashboard?tab=dashboard">
               <Dropdown.Item>Dashboard</Dropdown.Item>
             </Link>
             <Link>
