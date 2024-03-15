@@ -40,6 +40,7 @@ export const updateUser = async (req, res, next) => {
           country: req.body.country,
           phone: req.body.phone,
           description: req.body.description,
+          skills: req.body.skills,
         },
       },
       { new: true }

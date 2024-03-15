@@ -34,6 +34,9 @@ const userSchema = new mongoose.Schema(
     description: {
       type: String,
     },
+    skills: {
+      type: Array,
+    },
     isSeller: {
       type: Boolean,
       default: false,
