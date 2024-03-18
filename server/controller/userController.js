@@ -3,7 +3,8 @@ import User from "../models/userModel.js";
 
 export const updateUser = async (req, res, next) => {
   try {
-    if (req.user._id !== req.params.userId) {
+    console.log(req.user.id, req.params.userId);
+    if (req.user.id !== req.params.userId) {
       return res.status(403).json("you are not allowed to update this user");
     }
     if (req.body.password?.length < 6) {
@@ -50,5 +51,33 @@ export const updateUser = async (req, res, next) => {
   } catch (error) {
     console.log("update", error);
     next(error);
+  }
+};
+
+// delete account
+export const deleteUser = async (req, res) => {
+  try {
+    const findUser = await User.findById(req.user.id);
+
+    if (!findUser) {
+      return res.status(403).json("you are not allowed to delete this user");
+    }
+
+    await User.findByIdAndDelete(req.params.userId);
+    res.status(200).json("User has been deleted!");
+  } catch (error) {
+    console.log(deleteUser, "error");
+    res.status(500).json("Internal server error");
+  }
+};
+
+//sign out
+export const signOutUser = async (req, res) => {
+  try {
+    res.clearCookie("access_token");
+    res.status(200).json("User has been signed out!");
+  } catch (error) {
+    console.log("signOut", error);
+    res.status(500).json("Internal server error");
   }
 };
