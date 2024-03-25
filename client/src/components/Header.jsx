@@ -10,6 +10,8 @@ import { AiOutlineMail } from "react-icons/ai";
 import { CiHeart } from "react-icons/ci";
 import Switch from "react-switch";
 import { toggleBtn } from "../redux/slices/toggles";
+import { deleteSuccess } from "../redux/slices/userSlice";
+import axios from "axios";
 
 export default function Header() {
   const { theme } = useSelector((state) => state.themeState);
@@ -23,6 +25,15 @@ export default function Header() {
   // toggle
   const handleToggle = () => {
     dispatch(toggleBtn());
+  };
+  const handleSignout = async () => {
+    try {
+      await axios.post("/api/user/signout");
+      dispatch(deleteSuccess());
+    } catch (error) {
+      console.log("signout", error);
+      setSignOutError(error);
+    }
   };
 
   return (
@@ -114,7 +125,7 @@ export default function Header() {
               <Dropdown.Item>Message</Dropdown.Item>
             </Link>
             <Dropdown.Divider />
-            <Dropdown.Item>Sign Out</Dropdown.Item>
+            <Dropdown.Item onClick={handleSignout}>Sign Out</Dropdown.Item>
           </Dropdown>
         ) : (
           <Link to="/sign-in">
