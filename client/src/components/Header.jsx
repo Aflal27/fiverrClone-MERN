@@ -22,7 +22,6 @@ export default function Header() {
 
   // toggle
   const handleToggle = () => {
-    console.log("toggle click");
     dispatch(toggleBtn());
   };
 

@@ -10,6 +10,9 @@ export default function DashSidebar() {
           <Link to="/dashboard?tab=profile">
             <Sidebar.Item>Profile</Sidebar.Item>
           </Link>
+          <Link to="/dashboard?tab=my-gig">
+            <Sidebar.Item>My Gig</Sidebar.Item>
+          </Link>
         </Sidebar.ItemGroup>
       </Sidebar.Items>
     </Sidebar>
