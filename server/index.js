@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import authRouter from "./routes/authRoute.js";
 import userRouter from "./routes/userRoute.js";
+import gigRouter from "./routes/gigRoute.js";
 dotenv.config();
 import cookieParser from "cookie-parser";
 
@@ -23,6 +24,7 @@ mongoose
 // ruters
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
+app.use("/api/gig", gigRouter);
 
 // midelware
 // middleware
