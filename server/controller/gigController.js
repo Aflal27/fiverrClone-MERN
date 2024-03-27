@@ -27,3 +27,64 @@ export const createGig = async (req, res, next) => {
     next(error);
   }
 };
+
+// get gig
+export const getGig = async (req, res, next) => {
+  try {
+    if (req.user.id !== req.params.userId) {
+      return res.status(403).json("No user found!");
+    }
+    const gigs = await Gig.find({ userId: req.params.userId });
+    res.status(200).json(gigs);
+  } catch (error) {
+    console.log("getSingleGigError", error);
+    next(error);
+  }
+};
+
+// update gig
+export const updateGig = async (req, res, next) => {
+  try {
+    if (req.user.id !== req.params.userId) {
+      return res.status(403).json("No user found!");
+    }
+    const user = await User.findById(req.user.id);
+
+    const updateGig = await Gig.findByIdAndUpdate(
+      req.params.gigId,
+      {
+        $set: {
+          ...req.body,
+        },
+      },
+      { new: true }
+    );
+
+    await notificationModel.create({
+      creator: req.params.userId,
+      gig: updateGig._id,
+      content: `${user.username} update a  gig, pending for Approval.`,
+      type: "gig-approval",
+    });
+
+    res.status(200).json(updateGig);
+  } catch (error) {
+    console.log("updateGigError", error);
+    next(error);
+  }
+};
+
+//get single gig
+export const getSingleGig = async (req, res, next) => {
+  try {
+    if (req.user.id !== req.params.userId) {
+      return res.status(403).json("No user found!");
+    }
+
+    const gig = await Gig.findById(req.params.gigId);
+    res.status(200).json(gig);
+  } catch (error) {
+    console.log("getSingleGigError", error);
+    next(error);
+  }
+};
