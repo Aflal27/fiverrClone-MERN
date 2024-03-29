@@ -88,3 +88,17 @@ export const getSingleGig = async (req, res, next) => {
     next(error);
   }
 };
+
+//delete gig
+export const dltGig = async (req, res, next) => {
+  try {
+    if (req.user.id !== req.params.userId) {
+      return res.status(403).json("No user found!");
+    }
+    await Gig.findByIdAndDelete(req.params.gigId);
+    res.status(200).json("deleted successfully!");
+  } catch (error) {
+    console.log("DltGigError", error);
+    next(error);
+  }
+};
