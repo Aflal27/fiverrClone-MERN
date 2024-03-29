@@ -5,7 +5,15 @@ import { Link } from "react-router-dom";
 import { CiEdit } from "react-icons/ci";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 
-export default function CartGig({ gig }) {
+export default function CartGig({ gig, setshowModal, setGigId }) {
+  const handleDlt = (gigId) => {
+    try {
+      setshowModal(true);
+      setGigId(gigId);
+    } catch (error) {
+      console.log("deleteGigError", error);
+    }
+  };
   return (
     <div className=" bg-slate-100 dark:bg-slate-700 flex w-full gap-4 sm:w-[200px] sm:flex-col border border-gray-200 dark:border-gray-500">
       <div className=" relative">
@@ -41,7 +49,7 @@ export default function CartGig({ gig }) {
               <Dropdown.Item>
                 <MdOutlineDeleteOutline className=" mr-3" />
 
-                <span>Delete</span>
+                <span onClick={() => handleDlt(gig._id)}>Delete</span>
               </Dropdown.Item>
             </Dropdown>
             <div className=" flex items-center gap-1">
