@@ -24,7 +24,7 @@ export default function CartGig({ gig, setshowModal, setGigId }) {
           {gig.status ? "Active" : "Panding"}
         </span>
         <img
-          className=" w-[200px] h-[100px] object-cover"
+          className=" w-[200px] h-[100px] h-full object-cover"
           src={gig.images[0]}
           alt="gig image"
         />

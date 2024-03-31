@@ -45,7 +45,7 @@ export default function MyGig() {
     <div className="">
       {gigsData && gigsData.length > 0 ? (
         <>
-          <div className=" p-3 h-full flex flex-col gap-3 sm:flex-row  flex-wrap">
+          <div className=" p-3  flex flex-col gap-3 sm:flex-row  flex-wrap">
             {gigsData.map((gig, index) => (
               <CartGig
                 setshowModal={setshowModal}

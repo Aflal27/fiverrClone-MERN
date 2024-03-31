@@ -24,7 +24,7 @@ import axios from "axios";
 import { FaCircleCheck } from "react-icons/fa6";
 
 export default function CreategGig() {
-  const [formdata, setFormdata] = useState({ images: [] });
+  const [formdata, setFormdata] = useState({ images: [], tags: [] });
   const [navigateBtn, setNavigateBtn] = useState(1);
   const [btnOneSuccess, setBtnOneSuccess] = useState(false);
   const [btnTwoSuccess, setBtnTwoSuccess] = useState(false);
@@ -35,6 +35,9 @@ export default function CreategGig() {
   const { currentUser } = useSelector((state) => state.userState);
   const [showModal, setshowModal] = useState(false);
   const [gigError, setGigError] = useState(null);
+  const [tagError, setTagError] = useState("");
+  const [tag, setTag] = useState("");
+  const [loading, setLoading] = useState(false);
 
   console.log(formdata);
 
@@ -121,6 +124,7 @@ export default function CreategGig() {
       }
     }
     try {
+      setLoading(true);
       const { data } = await axios.post(
         `/api/gig/creategig/${currentUser._id}`,
         formdata
@@ -128,11 +132,28 @@ export default function CreategGig() {
       console.log(data);
       if (data) {
         setshowModal(true);
+        setLoading(false);
       }
     } catch (error) {
       setGigError(error.response.data);
       console.log("createGigError", error);
     }
+  };
+
+  const handleSkillBtn = () => {
+    if (tag.length > 25) {
+      setTagError("max 25 letters in allowed");
+      return;
+    }
+    setFormdata({
+      ...formdata,
+      tags: formdata.tags.concat(tag),
+    });
+    setTag("");
+  };
+
+  const handleSkillDlt = (tag) => {
+    setFormdata({ ...formdata, tags: formdata.tags.filter((t) => t !== tag) });
   };
 
   return (
@@ -189,6 +210,42 @@ export default function CreategGig() {
                 <option value="Graphic Designing"> Graphic Designing</option>
                 <option value="Video Editing">Video Editing</option>
               </Select>
+            </div>
+            {formdata.tags.length > 0 && (
+              <div className=" flex items-center gap-5 border p-3 border-gray-100">
+                {formdata.tags &&
+                  formdata.tags.map((tag, index) => (
+                    <div
+                      key={index}
+                      className=" opacity-50 border p-3 rounded-lg flex items-center gap-2">
+                      <p>{tag}</p>
+                      <IoClose
+                        onClick={() => handleSkillDlt(tag)}
+                        className=" border rounded-full cursor-pointer hover:bg-red-500"
+                      />
+                    </div>
+                  ))}
+              </div>
+            )}
+            <div className="">
+              <div className=" flex items-center gap-2">
+                <TextInput
+                  value={tag}
+                  onChange={(e) => setTag(e.target.value)}
+                  placeholder="Your tags"
+                />
+                <Button
+                  onClick={() => handleSkillBtn()}
+                  gradientDuoTone="purpleToBlue">
+                  Add
+                </Button>
+              </div>
+              <span className=" text-gray-500 text-xs">max 25Letters</span>
+              {tagError && (
+                <Alert className=" mt-2" color="failure">
+                  {tagError}
+                </Alert>
+              )}
             </div>
             <Button
               onClick={hadleContinueBtn}
@@ -566,7 +623,11 @@ export default function CreategGig() {
                 </Table.Body>
               </Table>
             </div>
-            <Button gradientDuoTone="purpleToBlue" outline type="submit">
+            <Button
+              disabled={loading}
+              gradientDuoTone="purpleToBlue"
+              outline
+              type="submit">
               Create a GiG
             </Button>
           </form>
