@@ -77,11 +77,14 @@ export const updateGig = async (req, res, next) => {
 //get single gig
 export const getSingleGig = async (req, res, next) => {
   try {
-    if (req.user.id !== req.params.userId) {
-      return res.status(403).json("No user found!");
-    }
+    // if (req.user.id !== req.params.userId) {
+    //   return res.status(403).json("No user found!");
+    // }
 
-    const gig = await Gig.findById(req.params.gigId);
+    const gig = await Gig.findById(req.params.gigId).populate(
+      "userId",
+      "username country description skills level image"
+    );
     res.status(200).json(gig);
   } catch (error) {
     console.log("getSingleGigError", error);
