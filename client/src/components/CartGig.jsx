@@ -16,22 +16,26 @@ export default function CartGig({ gig, setshowModal, setGigId }) {
   };
   return (
     <div className=" bg-slate-100 dark:bg-slate-700 flex w-full gap-4 sm:w-[200px] sm:flex-col border border-gray-200 dark:border-gray-500">
-      <div className=" relative">
-        <span
-          className={` p-1 absolute m-1 ${
-            gig.status && "bg-green-400"
-          } bg-red-400 rounded-lg w-auto text-center`}>
-          {gig.status ? "Active" : "Panding"}
-        </span>
-        <img
-          className=" w-[200px] h-[100px] h-full object-cover"
-          src={gig.images[0]}
-          alt="gig image"
-        />
-      </div>
+      <Link to={`/gig/${gig._id}`}>
+        <div className=" relative">
+          <span
+            className={` p-1 absolute m-1 ${
+              gig.status && "bg-green-400"
+            } bg-red-400 rounded-lg w-auto text-center`}>
+            {gig.status ? "Active" : "Panding"}
+          </span>
+          <img
+            className=" w-[200px]  h-full object-cover"
+            src={gig.images[0]}
+            alt="gig image"
+          />
+        </div>
+      </Link>
       <div className=" space-y-8  sm:space-y-3 p-2 bg-slate-100 dark:bg-slate-700">
         <div className=" text-sm">
-          <p>{gig.title}</p>
+          <Link to={`/gig/${gig._id}`}>
+            <p className=" hover:underline">{gig.title}</p>
+          </Link>
         </div>
         <div className="">
           <div className=" flex items-center sm:justify-between gap-20 ">

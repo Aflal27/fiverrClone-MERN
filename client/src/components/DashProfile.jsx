@@ -36,6 +36,7 @@ export default function DashProfile() {
   const [signOutError, setSignOutError] = useState(null);
   const [DeleteError, setDeleteError] = useState(null);
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (imageFile) {
@@ -155,6 +156,7 @@ service firebase.storage {
       return;
     }
     try {
+      setLoading(true);
       const { data } = await axios.put(
         `/api/user/updateuser/${currentUser._id}`,
         formData
@@ -162,9 +164,11 @@ service firebase.storage {
 
       dispatch(updateSuccess(data));
       setUpdateSuccessMsg("Update Success!");
+      setLoading(false);
     } catch (error) {
       console.log("user update error", error);
       setUserUpdateError(error.response.data);
+      setLoading(false);
     }
   };
 
@@ -297,7 +301,7 @@ service firebase.storage {
           type="submit"
           gradientDuoTone="purpleToBlue"
           outline
-          disabled={false}>
+          disabled={loading}>
           Update
         </Button>
       </form>

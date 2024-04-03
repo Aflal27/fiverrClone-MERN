@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import CartGig from "./CartGig";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { Modal, Button } from "flowbite-react";
+import { Modal, Button, Spinner } from "flowbite-react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 
 export default function MyGig() {
@@ -11,18 +11,22 @@ export default function MyGig() {
   const { currentUser } = useSelector((state) => state.userState);
   const [showModal, setshowModal] = useState(false);
   const [gigId, setGigId] = useState(null);
+  const [loading, setLoading] = useState(false);
   console.log(showModal);
 
   // console.log(gigId);
 
   useEffect(() => {
     const fetchGigData = async () => {
+      setLoading(true);
       try {
         const { data } = await axios.get(`/api/gig/getgig/${currentUser._id}`);
         setGigsData(data);
+        setLoading(false);
       } catch (error) {
         console.log(error);
         setFetchGigError(error.response.data);
+        setLoading(false);
       }
     };
     fetchGigData();
@@ -40,7 +44,13 @@ export default function MyGig() {
       console.log("gigDlt", error);
     }
   };
-
+  if (loading) {
+    return (
+      <div className=" flex items-center justify-center min-h-screen w-screen">
+        {loading && <Spinner />}
+      </div>
+    );
+  }
   return (
     <div className="">
       {gigsData && gigsData.length > 0 ? (
