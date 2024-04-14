@@ -45,6 +45,13 @@ const userSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    friends: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
+
     beingCleared: [
       {
         order: {
