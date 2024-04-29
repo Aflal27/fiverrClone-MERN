@@ -8,10 +8,20 @@ import ConverRouter from "./routes/converRoute.js";
 import msgRouter from "./routes/msgRouter.js";
 dotenv.config();
 import cookieParser from "cookie-parser";
+import Pusher from "pusher";
 
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
+
+//pusher
+const pusher = new Pusher({
+  appId: "1794427",
+  key: "3cbe62482136f91d71ee",
+  secret: "19c924ca6183264e5b7f",
+  cluster: "ap2",
+  useTLS: true,
+});
 
 // db
 mongoose
@@ -20,8 +30,24 @@ mongoose
     console.log("db connected!");
   })
   .catch((error) => {
-    console.log("DB ERROR", error);
+    console.log("db connect error", error);
   });
+
+const db = mongoose.connection;
+
+db.once("open", () => {
+  const message = db.collection("messages");
+  const changeStream = message.watch();
+
+  changeStream.on("change", (change) => {
+    if (change.operationType === "insert") {
+      const msgDetails = change.fullDocument;
+      pusher.trigger("msg", "inserted", msgDetails);
+    } else {
+      console.log("not found request");
+    }
+  });
+});
 
 // ruters
 app.use("/api/auth", authRouter);
