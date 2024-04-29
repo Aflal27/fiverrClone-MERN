@@ -13,6 +13,9 @@ export default function DashSidebar() {
           <Link to="/dashboard?tab=my-gig">
             <Sidebar.Item>My Gig</Sidebar.Item>
           </Link>
+          <Link to="/dashboard?tab=msg">
+            <Sidebar.Item>Message</Sidebar.Item>
+          </Link>
         </Sidebar.ItemGroup>
       </Sidebar.Items>
     </Sidebar>

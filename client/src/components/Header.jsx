@@ -121,7 +121,7 @@ export default function Header() {
             <Link to="/dashboard?tab=dashboard">
               <Dropdown.Item>Dashboard</Dropdown.Item>
             </Link>
-            <Link>
+            <Link to={"/dashboard?tab=msg"}>
               <Dropdown.Item>Message</Dropdown.Item>
             </Link>
             <Dropdown.Divider />
