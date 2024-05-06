@@ -7,6 +7,10 @@ const notificationSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    reciver: {
+      type: mongoose.Types.ObjectId,
+      ref: "User",
+    },
     gig: {
       type: mongoose.Types.ObjectId,
       ref: "Gig",
@@ -26,6 +30,7 @@ const notificationSchema = new mongoose.Schema(
         "payment-approval",
         "payment-approved",
         "order",
+        "message",
       ],
       required: true,
     },

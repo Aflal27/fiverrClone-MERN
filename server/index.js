@@ -6,6 +6,7 @@ import userRouter from "./routes/userRoute.js";
 import gigRouter from "./routes/gigRoute.js";
 import ConverRouter from "./routes/converRoute.js";
 import msgRouter from "./routes/msgRouter.js";
+import payRouter from "./routes/paymentRoute.js";
 dotenv.config();
 import cookieParser from "cookie-parser";
 import Pusher from "pusher";
@@ -55,6 +56,7 @@ app.use("/api/user", userRouter);
 app.use("/api/gig", gigRouter);
 app.use("/api/conver", ConverRouter);
 app.use("/api/msg", msgRouter);
+app.use("/api/payment", payRouter);
 
 // midelware
 // middleware

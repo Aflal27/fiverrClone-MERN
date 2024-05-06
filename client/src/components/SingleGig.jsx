@@ -9,7 +9,7 @@ import { Alert, Button, Modal, Table, TextInput } from "flowbite-react";
 import { CiTimer } from "react-icons/ci";
 import { BiRevision } from "react-icons/bi";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigation, useNavigate } from "react-router-dom";
 import { Spinner } from "flowbite-react";
 import { FaFileImage } from "react-icons/fa";
 import { IoMdSend } from "react-icons/io";
@@ -40,6 +40,9 @@ export default function SingleGig() {
   const [fileError, setFileError] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [docUrl, setDocUrl] = useState("");
+  const [msgState, setMsgState] = useState("text");
+  const [txtMsg, setTxtMsg] = useState("");
+  const [msgLoading, setMsgLoading] = useState(false);
   const [handleBtn, setHandleBtn] = useState({
     base: true,
     silver: false,
@@ -47,11 +50,9 @@ export default function SingleGig() {
   });
   const [read1, setRead1] = useState(false);
   const [read2, setRead2] = useState(false);
-  const [msgState, setMsgState] = useState("text");
-  const [txtMsg, setTxtMsg] = useState("");
-  const [msgLoading, setMsgLoading] = useState(false);
   const [converModal, setConverModal] = useState(false);
   const [converData, setConverData] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setImageUrl(null);
@@ -266,6 +267,15 @@ export default function SingleGig() {
     setTxtMsg(e.target.value);
   };
 
+  const handleContinue = () => {
+    navigate("/order-gig", {
+      state: {
+        gigData: gigData,
+        handleGigState: handleBtn,
+      },
+    });
+  };
+
   return (
     <>
       <div className=" max-w-6xl mx-auto p-4 lg:flex gap-5">
@@ -373,9 +383,6 @@ export default function SingleGig() {
                   className=" "
                   gradientDuoTone="purpleToBlue"
                   onClick={() => {
-                    // setBasic(true);
-                    // setStand(false);
-                    // setPlatinum(false);
                     handleBtnFun("base");
                   }}>
                   Basic
@@ -386,9 +393,6 @@ export default function SingleGig() {
                 <Button
                   gradientDuoTone="purpleToBlue"
                   onClick={() => {
-                    // setBasic(false);
-                    // setStand(true);
-                    // setPlatinum(false);
                     handleBtnFun("silver");
                   }}>
                   Standard
@@ -398,9 +402,6 @@ export default function SingleGig() {
                 <Button
                   gradientDuoTone="purpleToBlue"
                   onClick={() => {
-                    // setBasic(false);
-                    // setStand(false);
-                    // setPlatinum(true);
                     handleBtnFun("platinum");
                   }}>
                   Primium
@@ -491,7 +492,9 @@ export default function SingleGig() {
               </Table.Row>
               <Table.Row>
                 <Table.Cell>
-                  <Button className=" bg-gray-800 w-full dark:bg-gray-700">
+                  <Button
+                    onClick={handleContinue}
+                    className=" bg-gray-800 w-full dark:bg-gray-700">
                     Continue
                   </Button>
                 </Table.Cell>
